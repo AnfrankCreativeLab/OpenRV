@@ -1,0 +1,16 @@
+name: OpenRV Windows Manual Build
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  windows:
+    name: Windows x64 Release
+    uses: ./.github/workflows/ci-windows.yml
+    with:
+      skip_deps_cache: 'false'
+      full_matrix: 'false'
+      run_debug: 'false'

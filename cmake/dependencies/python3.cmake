@@ -80,9 +80,17 @@ FETCHCONTENT_MAKEAVAILABLE(${_pyside_target})
 SET(_python3_make_command_script
     "${PROJECT_SOURCE_DIR}/src/build/make_python.py"
 )
-SET(_python3_make_command
-    python3 "${_python3_make_command_script}"
-)
+
+IF(WIN32 AND DEFINED ENV{pythonLocation})
+  SET(_python3_make_command
+      "$ENV{pythonLocation}/python.exe" "${_python3_make_command_script}"
+  )
+ELSE()
+  SET(_python3_make_command
+      python3 "${_python3_make_command_script}"
+  )
+ENDIF()
+
 LIST(APPEND _python3_make_command "--variant")
 LIST(APPEND _python3_make_command ${CMAKE_BUILD_TYPE})
 LIST(APPEND _python3_make_command "--source-dir")

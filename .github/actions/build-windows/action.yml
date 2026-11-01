@@ -189,7 +189,8 @@ runs:
     - name: Install Python build dependencies for MSYS2
       shell: msys2 {0}
       run: |
-        pacman -S --noconfirm --needed mingw-w64-x86_64-python-requests mingw-w64-x86_64-python-py7zr
+        pacman -S --noconfirm --needed mingw-w64-x86_64-python-requests mingw-w64-x86_64-python-pip
+        python3 -m pip install --user --break-system-packages py7zr
         python3 -c "import requests, py7zr; print('Python build dependencies OK')"
 
     - name: Configure OpenRV

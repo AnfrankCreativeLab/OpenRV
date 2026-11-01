@@ -159,6 +159,8 @@ runs:
         python --version
         python -m pip --version
         python -m pip install --upgrade -r ./requirements.txt
+        python -m pip install requests py7zr
+        python -c "import sys, requests, py7zr; print('Python executable:', sys.executable); print('Dependencies OK')"
 
     - name: Setup sccache
       # Used for this run only (SCCACHE_GHA_ENABLED=false); not stored in Actions cache.

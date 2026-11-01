@@ -180,16 +180,11 @@ runs:
     - name: Verify Python environments
       shell: msys2 {0}
       run: |
-        echo "Python executables:"
-        which -a python python3
-        echo "Python versions:"
-        python --version
-        python3 --version
-        echo "Python paths:"
-        python -c "import sys; print(sys.executable)"
+        echo "MSYS2 Python:"
         python3 -c "import sys; print(sys.executable)"
-        echo "Required modules:"
-        python -c "import requests, py7zr; print('Windows Python dependencies OK')"
+        echo "GitHub Actions Python:"
+        test -n "$pythonLocation"
+        "$pythonLocation/python.exe" -c "import sys, requests, py7zr; print(sys.executable); print('Windows Python dependencies OK')"
 
     - name: Verify Windows Python for CMake
       shell: msys2 {0}

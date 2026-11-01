@@ -136,9 +136,15 @@ ELSEIF(RV_VFX_PLATFORM STRGREATER_EQUAL CY2024)
   SET(_pyside_make_command_script
       "${PROJECT_SOURCE_DIR}/src/build/make_pyside6.py"
   )
-  SET(_pyside_make_command
-      python3 "${_pyside_make_command_script}"
-  )
+  IF(WIN32 AND DEFINED ENV{pythonLocation})
+    SET(_pyside_make_command
+        "$ENV{pythonLocation}/python.exe" "${_pyside_make_command_script}"
+    )
+  ELSE()
+    SET(_pyside_make_command
+        python3 "${_pyside_make_command_script}"
+    )
+  ENDIF()
 
   LIST(APPEND _pyside_make_command "--variant")
   LIST(APPEND _pyside_make_command ${CMAKE_BUILD_TYPE})

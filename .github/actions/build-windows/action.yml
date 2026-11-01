@@ -107,7 +107,7 @@ runs:
 
     - name: Set PATH environment variable
       run: |
-        echo "export PATH=\"/c/Program Files/CMake/bin:/c/hostedtoolcache/windows/Python/3.10.11/x64:/c/msys64/mingw64/bin:$PATH:/c/Strawberry/c/bin:/c/Strawberry/perl/site/bin:/c/Strawberry/perl/bin:/c/ProgramData/Chocolatey/bin:/c/ProgramData/Chocolatey/lib/jom/tools\"" >> ~/.bash_profile
+        echo "export PATH=\"/c/Program Files/CMake/bin:$PATH:/c/Strawberry/c/bin:/c/Strawberry/perl/site/bin:/c/Strawberry/perl/bin:/c/ProgramData/Chocolatey/bin:/c/ProgramData/Chocolatey/lib/jom/tools\"" >> ~/.bash_profile
       shell: msys2 {0}
 
     - name: Set ACLOCAL_PATH environment variable
@@ -175,23 +175,19 @@ runs:
         sccache --version || echo "WARNING: sccache not found in PATH"
       shell: msys2 {0}
 
-    - name: Verify Python used by MSYS2
+    - name: Verify Python environments
       shell: msys2 {0}
       run: |
-        echo "Python executable:"
-        which python3
+        echo "Python executables:"
+        which -a python python3
+        echo "Python versions:"
+        python --version
         python3 --version
-        echo "Pip availability:"
-        python3 -m pip --version || true
-        echo "Requests availability:"
-        python3 -c "import requests; print(requests.__version__)" || true
-
-    - name: Install Python build dependencies for MSYS2
-      shell: msys2 {0}
-      run: |
-        pacman -S --noconfirm --needed mingw-w64-x86_64-python-requests mingw-w64-x86_64-python-pip
-        python3 -m pip install --user --break-system-packages py7zr
-        python3 -c "import requests, py7zr; print('Python build dependencies OK')"
+        echo "Python paths:"
+        python -c "import sys; print(sys.executable)"
+        python3 -c "import sys; print(sys.executable)"
+        echo "Required modules:"
+        python -c "import requests, py7zr; print('Windows Python dependencies OK')"
 
     - name: Configure OpenRV
       run: |

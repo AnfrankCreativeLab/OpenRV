@@ -191,6 +191,13 @@ runs:
         echo "Required modules:"
         python -c "import requests, py7zr; print('Windows Python dependencies OK')"
 
+    - name: Verify Windows Python for CMake
+      shell: msys2 {0}
+      run: |
+        echo "pythonLocation=$pythonLocation"
+        test -n "$pythonLocation"
+        "$pythonLocation/python.exe" -c "import sys, requests, py7zr; print('Python:', sys.executable); print('Dependencies OK')"
+
     - name: Configure OpenRV
       run: |
         cmake --version
